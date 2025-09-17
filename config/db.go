@@ -1,7 +1,5 @@
 package config
 
-var DB *gorm.DB
-
 import (
 	"fmt"
 	"log"
@@ -10,12 +8,14 @@ import (
 	"gorm.io/gorm"
 )
 
-func ConnectDB(){
+var DB *gorm.DB
+
+func ConnectDB() {
 	dsn := "host=localhost user=admin password=secret dbname=expensedb port=5432 sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal("Failed to connect to database:", err)
+		log.Fatal("Failed to connect to DB: ", err)
 	}
 	DB = db
-	fmt.Println("DB Connected")
+	fmt.Println("✅ Database connected")
 }
