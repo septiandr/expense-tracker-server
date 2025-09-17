@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: expense-tracker-db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: expensedb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  pgweb:
+    image: sosedoff/pgweb
+    container_name: expense-tracker-pgweb
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      PGWEB_DATABASE_URL: postgres://admin:secret@db:5432/expensedb?sslmode=disable
+    command: ["--bind=0.0.0.0"]
+    depends_on:
+      - db
+
+volumes:
+  db_data:

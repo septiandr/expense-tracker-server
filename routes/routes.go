@@ -7,10 +7,8 @@ import (
 )
 
 func SetupRoutes(r *gin.Engine) {
-	r.POST("/auth/register", controllers.Register)
-	r.POST("/auth/login", controllers.Login)
+	r.GET("/transactions", controllers.GetAllTransactions)
 
-	// TODO: Tambah middleware JWT
-	// r.GET("/categories", controllers.GetCategories)
-	// r.POST("/transactions", controllers.CreateTransaction)
+	r.GET("/categories", controllers.GetAllCategories)
+	r.POST("/category", controllers.CreateCategory)
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"expense-tracker/config"
+	"expense-tracker/middleware"
 	"expense-tracker/models"
 	"expense-tracker/routes"
 	"expense-tracker/seeders"
@@ -14,10 +15,12 @@ func main() {
 
 	// Connect DB
 	config.ConnectDB()
+
 	// Auto migrate models
-	config.DB.AutoMigrate(&models.User{}, &models.Category{}, &models.Transaction{})
+	config.DB.AutoMigrate(&models.Category{}, &models.Transaction{})
 
 	seeders.Seed()
+	r.Use(middleware.DBMiddleware())
 
 	// Setup routes
 	routes.SetupRoutes(r)
