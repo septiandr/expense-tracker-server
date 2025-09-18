@@ -10,6 +10,9 @@ func SetupRoutes(r *gin.Engine) {
 	r.GET("/transactions", controllers.GetAllTransactions)
 
 	r.GET("/categories", controllers.GetAllCategories)
-	r.POST("/category", controllers.CreateCategory)
-	r.DELETE("category/:id", controllers.DeleteCategory)
+	category := r.Group("/category")
+	{
+		category.POST("/", controllers.CreateCategory)
+		category.DELETE("/:id", controllers.DeleteCategory)
+	}
 }

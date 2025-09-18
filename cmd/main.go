@@ -5,7 +5,6 @@ import (
 	"expense-tracker/middleware"
 	"expense-tracker/models"
 	"expense-tracker/routes"
-	"expense-tracker/seeders"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,7 +18,7 @@ func main() {
 	// Auto migrate models
 	config.DB.AutoMigrate(&models.Category{}, &models.Transaction{})
 
-	seeders.Seed()
+	// seeders.Seed()
 	r.Use(middleware.DBMiddleware())
 
 	// Setup routes

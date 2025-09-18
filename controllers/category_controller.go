@@ -3,6 +3,7 @@ package controllers
 import (
 	"expense-tracker/middleware"
 	"expense-tracker/models"
+	"expense-tracker/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -12,14 +13,15 @@ func GetAllCategories(c *gin.Context) {
 	db := middleware.GetDB(c) // ambil koneksi DB dari context
 
 	var categories []models.Category
-	if err := db.Find(&categories).Error; err != nil {
+	result, err := utils.Paginate(c, db, &models.Category{}, &categories, "name")
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": categories})
+	c.JSON(http.StatusOK, gin.H{"data": result})
 }
 
 func CreateCategory(c *gin.Context) {
