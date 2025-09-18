@@ -41,3 +41,22 @@ func CreateCategory(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": category})
 }
+
+func DeleteCategory(c *gin.Context) {
+	db := middleware.GetDB(c)
+
+	id := c.Param("id")
+
+	var category models.Category                          // init tempat penyimpanan data category
+	if err := db.First(&category, id).Error; err != nil { // cari category berdasarkan id dan simpan di variable category
+		c.JSON(http.StatusNotFound, gin.H{"error": "Category not found"})
+		return
+	}
+
+	if err := db.Delete(&category).Error; err != nil { // hapus category yang sudah ditemukan sesuai dengan yang ada di dalam variable category
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Category deleted successfully"})
+}

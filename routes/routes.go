@@ -11,4 +11,5 @@ func SetupRoutes(r *gin.Engine) {
 
 	r.GET("/categories", controllers.GetAllCategories)
 	r.POST("/category", controllers.CreateCategory)
+	r.DELETE("category/:id", controllers.DeleteCategory)
 }
